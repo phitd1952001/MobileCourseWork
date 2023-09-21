@@ -45,7 +45,7 @@ namespace MobileBackend.Extensions
         {
             service.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web Mobile Backend", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Web api", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

@@ -3,7 +3,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MobileBackend.Authorization;
 using MobileBackend.Dtos.UserDtos;
-using MobileBackend.Models;
 using MobileBackend.Services.IServices;
 
 namespace MobileBackend.Controllers

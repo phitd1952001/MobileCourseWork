@@ -6,11 +6,13 @@ import { Text } from "react-native";
 
 import SettingScreen from "../../features/setting/screens/setting.screen";
 import BookScreen from "../../features/crudBook/screens/book.screen";
+import HikingScreen from "../../features/hiking/screens/hiking.screen";
 
 const Tab = createBottomTabNavigator();
 
 const TAB_ICON = {
   Book: "book",
+  Hiking: "ios-location-sharp",
   Setting: "md-settings",
 };
 
@@ -35,6 +37,13 @@ export const AppNavigator = () => (
       <Tab.Screen
         name="Book"
         component={BookScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Hiking"
+        component={HikingScreen}
         options={{
           headerShown: false,
         }}

@@ -1,25 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Text } from "../../../components/typography/text.components";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { FlatList, View, StyleSheet, StatusBar } from "react-native";
-import { BookContext } from "../../../services/books/book.context";
+import { HikingContext } from "../../../services/hikings/hiking.context";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Search } from "../components/search.component";
-import { BookInfoCard } from "../components/book-info-card.component";
+import { HikingInfoCard } from "../components/hiking-info-card.component";
 
-const BookScreen = () => {
-  const { books, errors } = useContext(BookContext);
-  console.log(books);
+const HikingScreen = () => {
+  const { hikings, errors } = useContext(HikingContext);
+  console.log(hikings);
   console.log(errors);
 
   return (
     <SafeArea>
       <Search />
       <FlatList
-        data={books}
+        data={hikings}
         renderItem={({ item }) => (
           <Spacer position="bottom" size="medium">
-            <BookInfoCard book={item} />
+            <HikingInfoCard hiking={item} />
           </Spacer>
         )}
         keyExtractor={(item) => item.id}
@@ -28,4 +27,4 @@ const BookScreen = () => {
   );
 };
 
-export default BookScreen;
+export default HikingScreen;

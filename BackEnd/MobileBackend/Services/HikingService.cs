@@ -74,7 +74,6 @@ namespace MobileBackend.Services
                 var hiking = _db.Hikings.FirstOrDefault(x => x.Id == id);
                 if (hiking == null)
                     return false;
-            
                 _db.Hikings.Remove(hiking);
                 _db.SaveChanges();
 

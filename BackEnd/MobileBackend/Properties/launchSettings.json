@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WepApiKhoiPhi": {
+    "MobileBackend": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
