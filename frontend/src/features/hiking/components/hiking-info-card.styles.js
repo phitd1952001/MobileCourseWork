@@ -48,6 +48,4 @@ export const Section = styled.View`
   justify-content: space-between;
 `;
 
-export const DeleteBtn = styled.Button`
-
-`;
+export const DeleteBtn = styled.Button``;

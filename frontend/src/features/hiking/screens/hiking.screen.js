@@ -1,16 +1,22 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Spacer } from "../../../components/spacer/spacer.component";
-import { FlatList, View, StyleSheet, StatusBar } from "react-native";
+import { FlatList } from "react-native";
 import { HikingContext } from "../../../services/hikings/hiking.context";
 import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Search } from "../components/search.component";
 import { HikingInfoCard } from "../components/hiking-info-card.component";
+import styled from "styled-components";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Modal } from "react-native-paper";
+import { UpSert } from "../components/upSert.component";
 
 const HikingScreen = () => {
   const { hikings, errors } = useContext(HikingContext);
-  console.log(hikings);
-  console.log(errors);
+  const [visible, setVisible] = useState(false);
 
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = { backgroundColor: "white", padding: 20, width: 300 };
   return (
     <SafeArea>
       <Search />
@@ -23,8 +29,44 @@ const HikingScreen = () => {
         )}
         keyExtractor={(item) => item.id}
       />
+      <TouchableOpacity onPress={showModal} style={styles.createButton}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
+
+      <Modal
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        visible={visible}
+        onDismiss={hideModal}
+        contentContainerStyle={containerStyle}
+      >
+        <UpSert/>
+      </Modal>
     </SafeArea>
   );
 };
+
+const styles = StyleSheet.create({
+  createButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "green",
+    borderRadius: 50,
+    width: 65,
+    height: 65,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+});
 
 export default HikingScreen;
