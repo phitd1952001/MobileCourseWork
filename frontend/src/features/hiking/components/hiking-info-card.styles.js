@@ -47,3 +47,7 @@ export const Section = styled.View`
   padding-right: ${(props) => props.theme.space[5]};
   justify-content: space-between;
 `;
+
+export const DeleteBtn = styled.Button`
+
+`;

@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useContext } from "react";
+import { View, Alert } from "react-native";
 import { SvgXml } from "react-native-svg";
 import star from "../../../../assets/star";
 
@@ -12,7 +12,10 @@ import {
   HikingTitle,
   HikingDifficultLevel,
   HikingDate,
+  DeleteBtn,
 } from "./hiking-info-card.styles";
+
+import { HikingContext } from "../../../services/hikings/hiking.context";
 
 const images = [
   "https://images.pexels.com/photos/532803/pexels-photo-532803.jpeg?cs=srgb&dl=pexels-pixabay-532803.jpg&fm=jpg",
@@ -26,12 +29,25 @@ export const HikingInfoCard = ({ hiking = {} }) => {
   const ratingArray = Array.from(new Array(Math.floor(5)));
   let randomNumber = Math.floor(Math.random() * 4);
 
+  const { deleteHiking } = useContext(HikingContext);
+
+  const onDelete = () =>{
+    Alert.alert('Confirm', 'Do You Want To Delete This?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: () => deleteHiking(hiking.id)},
+    ]);
+  }
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return month + '-' + day + '-' + year;
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return month + "-" + day + "-" + year;
   };
 
   return (
@@ -47,23 +63,36 @@ export const HikingInfoCard = ({ hiking = {} }) => {
           ))}
         </Rating>
         <Section>
-          <HikingDate varient="body">Packing Available: {hiking.parkingAvailable ? "YES": "NO"}</HikingDate>
+          <HikingDate varient="body">
+            Packing Available: {hiking.parkingAvailable ? "YES" : "NO"}
+          </HikingDate>
         </Section>
         <Section>
-          <HikingDate varient="body">Date: {formatDate(hiking.date)}</HikingDate>
+          <HikingDate varient="body">
+            Date: {formatDate(hiking.date)}
+          </HikingDate>
           <HikingDifficultLevel varient="hint">
-              Difficult Level: {hiking.difficultLevel}
+            Difficult Level: {hiking.difficultLevel}
           </HikingDifficultLevel>
         </Section>
         <Section>
-          <HikingDate varient="body">Length Of Hike: {hiking.lengthOfHike}</HikingDate>
+          <HikingDate varient="body">
+            Length Of Hike: {hiking.lengthOfHike}
+          </HikingDate>
           <HikingDifficultLevel varient="hint">
-              Location: {hiking.location}
+            Location: {hiking.location}
           </HikingDifficultLevel>
         </Section>
         <Section>
-          <HikingDate varient="body">Description: {hiking.description}</HikingDate>
+          <HikingDate varient="body">
+            Description: {hiking.description}
+          </HikingDate>
         </Section>
+        <DeleteBtn
+          onPress={onDelete}
+          title="Delete"
+          color="#fc0303"
+        ></DeleteBtn>
       </Info>
     </HikingCard>
   );
