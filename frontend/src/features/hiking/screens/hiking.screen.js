@@ -43,7 +43,7 @@ const HikingScreen = () => {
         onDismiss={hideModal}
         contentContainerStyle={containerStyle}
       >
-        <UpSert/>
+        <UpSert onClose= {()=>setVisible(false)}/>
       </Modal>
     </SafeArea>
   );

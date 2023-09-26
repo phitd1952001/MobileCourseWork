@@ -57,11 +57,6 @@ export const HikingInfoCard = ({ hiking = {} }) => {
       </View>
       <Info>
         <HikingTitle varient="label">{hiking.name}</HikingTitle>
-        <Rating>
-          {ratingArray.map((_, i) => (
-            <SvgXml key={i} xml={star} width={20} height={20} />
-          ))}
-        </Rating>
         <Section>
           <HikingDate varient="body">
             Packing Available: {hiking.parkingAvailable ? "YES" : "NO"}

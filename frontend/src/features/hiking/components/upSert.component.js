@@ -1,12 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { TextInput, Button, RadioButton, Text } from "react-native-paper";
-//import DateTimePicker from '@react-native-community/datetimepicker';
+import { TextInput, Button } from "react-native-paper";
+import { Text } from "../../../components/typography/text.components";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { HikingContext } from "../../../services/hikings/hiking.context";
 
-export const UpSert = () => {
+export const UpSert = ({onClose}) => {
   const { createHiking } = useContext(HikingContext);
   const [formData, setFormData] = useState({
     name: "",
@@ -14,7 +16,7 @@ export const UpSert = () => {
     date: new Date(),
     parkingAvailable: false,
     lengthOfHike: 0,
-    difficultLevel: "",
+    difficultLevel: "Hard",
     description: "",
   });
 
@@ -29,17 +31,61 @@ export const UpSert = () => {
     setShowDatePicker(false);
 
     if (selectedDate) {
-      setFormData({ ...formData, Date: selectedDate });
+      setFormData({ ...formData, date: selectedDate });
     }
   };
 
+  // packing available picker
+  const pickerPackingRef = useRef();
+
+  function openParking() {
+    pickerPackingRef.current.focus();
+  }
+
+  function closeParking() {
+    pickerPackingRef.current.blur();
+  }
+
+  // packing available picker
+  const pickerDifficultRef = useRef();
+
+  function openDifficult() {
+    pickerDifficultRef.current.focus();
+  }
+
+  function closeDifficult() {
+    pickerDifficultRef.current.blur();
+  }
+
   const handleSubmit = () => {
     // Perform data validation here
-    // ...
+    const validationErrors = {};
 
-    // If there are no validation errors, you can submit the data
-    if (Object.keys(errors).length === 0) {
-      // Handle form submission here
+    // Validate the name field
+    if (!formData.name) {
+      validationErrors.name = 'Name is required';
+    }
+
+    if (!formData.location) {
+      validationErrors.location = 'Location is required';
+    }
+
+    if (typeof formData.parkingAvailable !== 'boolean') {
+      validationErrors.parkingAvailable = 'Parking Available is required';
+    }
+
+    if (!formData.lengthOfHike || formData.lengthOfHike < 0 || typeof formData.lengthOfHike !== "number") {
+      validationErrors.lengthOfHike = 'Length Of Hike is a number and required';
+    }
+
+    // Add more validation rules as needed for other fields
+
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      createHiking(formData)
+      alert('Form submitted successfully');
+      onClose();
     }
   };
 
@@ -52,8 +98,8 @@ export const UpSert = () => {
         error={!!errors.name}
         style={styles.textInput}
       />
-      {errors.name && <Text>{errors.name}</Text>}
-      <Spacer position="bottom" size="medium"/>
+      {errors.name && <Text variant="error">{errors.name}</Text>}
+      <Spacer position="bottom" size="medium" />
       <TextInput
         label="Location"
         value={formData.location}
@@ -61,8 +107,8 @@ export const UpSert = () => {
         error={!!errors.location}
         style={styles.textInput}
       />
-      {errors.location && <Text>{errors.location}</Text>}
-      <Spacer position="bottom" size="medium"/>
+      {errors.location && <Text variant="error">{errors.location}</Text>}
+      <Spacer position="bottom" size="medium" />
       {/* Date input */}
       <TextInput
         label="Date"
@@ -70,45 +116,70 @@ export const UpSert = () => {
         onFocus={() => setShowDatePicker(true)}
         style={styles.textInput}
       />
-      {/* {showDatePicker && (
+      {showDatePicker && (
         <DateTimePicker
           value={formData.date}
           mode="date"
           display="default"
           onChange={handleDateChange}
         />
-      )} */}
-      <Spacer position="bottom" size="medium"/>
+      )}
+      <Spacer position="bottom" size="medium" />
       {/* ParkingAvailable input */}
       <TextInput
         label="Parking Available "
-        value={formData.parkingAvailable}
-        onChangeText={(text) => handleInputChange("parkingAvailable", text)}
+        value={formData.parkingAvailable ? "YES" : "NO"}
         error={!!errors.parkingAvailable}
+        onFocus={() => openParking()}
+        onBlur={()=>closeParking()}
         style={styles.textInput}
       />
-      {errors.parkingAvailable && <Text>{errors.parkingAvailable}</Text>}
-      <Spacer position="bottom" size="medium"/>
+      <View style={{display: 'none'}}>
+        <Picker
+          ref={pickerPackingRef}
+          selectedValue={formData.parkingAvailable}
+          onValueChange={(itemValue, itemIndex) => setFormData({ ...formData, parkingAvailable: itemValue === 'true' })}
+        >
+          <Picker.Item label="Please Choose Option" value="" />
+          <Picker.Item label="YES" value="true" />
+          <Picker.Item label="NO" value="false" />
+        </Picker>
+      </View>
+      
+      {errors.parkingAvailable && <Text variant="error">{errors.parkingAvailable}</Text>}
+      <Spacer position="bottom" size="medium" />
       {/* LengthOfHike input */}
       <TextInput
         label="Length Of Hike "
         value={formData.lengthOfHike}
-        onChangeText={(text) => handleInputChange("lengthOfHike", text)}
+        onChangeText={(text) => handleInputChange("lengthOfHike", Number(text))}
         error={!!errors.lengthOfHike}
         style={styles.textInput}
       />
-      {errors.lengthOfHike && <Text>{errors.lengthOfHike}</Text>}
-      <Spacer position="bottom" size="medium"/>
+      {errors.lengthOfHike && <Text variant="error">{errors.lengthOfHike}</Text>}
+      <Spacer position="bottom" size="medium" />
       {/* LengthOfHike input */}
       <TextInput
         label="Difficult Level"
         value={formData.difficultLevel}
-        onChangeText={(text) => handleInputChange("difficultLevel", text)}
         error={!!errors.difficultLevel}
         style={styles.textInput}
+        onFocus={() => openDifficult()}
+        onBlur={()=>closeDifficult()}
       />
-      {errors.difficultLevel && <Text>{errors.difficultLevel}</Text>}
-      <Spacer position="bottom" size="medium"/>
+      {errors.difficultLevel && <Text  variant="error">{errors.difficultLevel}</Text>}
+      <View style={{display: 'none'}}>
+        <Picker
+          ref={pickerDifficultRef}
+          selectedValue={formData.difficultLevel}
+          onValueChange={(itemValue, itemIndex) => setFormData({ ...formData, difficultLevel: itemValue })}
+        >
+          <Picker.Item label="Hard" value="Hard" />
+          <Picker.Item label="Medium" value="Medium" />
+          <Picker.Item label="Low" value="Low" />
+        </Picker>
+      </View>
+      <Spacer position="bottom" size="medium" />
       {/* Description input */}
       <TextInput
         label="Description"
@@ -117,9 +188,13 @@ export const UpSert = () => {
         error={!!errors.description}
         style={styles.textInput}
       />
-      {errors.description && <Text>{errors.description}</Text>}
-      <Spacer position="bottom" size="medium"/>
-      <Button style={styles.buttonSubmit} mode="contained" onPress={handleSubmit}>
+      {errors.description && <Text variant="error">{errors.description}</Text>}
+      <Spacer position="bottom" size="medium" />
+      <Button
+        style={styles.buttonSubmit}
+        mode="contained"
+        onPress={handleSubmit}
+      >
         Submit
       </Button>
     </ScrollView>
@@ -127,11 +202,10 @@ export const UpSert = () => {
 };
 
 const styles = StyleSheet.create({
-    textInput: {
-      backgroundColor: "white",
-    },
-    buttonSubmit:{
-      backgroundColor: "blue",
-    }
+  textInput: {
+    backgroundColor: "white",
+  },
+  buttonSubmit: {
+    backgroundColor: "blue",
+  },
 });
-   
