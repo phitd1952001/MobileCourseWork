@@ -116,7 +116,7 @@ export const HikingContextProvider = ({ children }) => {
         loadHikings,
         loadHiking,
         createHiking,
-        updateHiking,
+        update : updateHiking,
         deleteHiking,
         hikings,
         hiking,

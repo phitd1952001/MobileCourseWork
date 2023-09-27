@@ -1,21 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Alert } from "react-native";
-import { SvgXml } from "react-native-svg";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import star from "../../../../assets/star";
 
 import {
   HikingCard,
   HikingCardCover,
   Info,
-  Rating,
   Section,
   HikingTitle,
+  HikingPackingAvailable,
   HikingDifficultLevel,
+  HikingLengthOfHike,
   HikingDate,
-  DeleteBtn,
+  HikingLocation,
+  HikingDescription,
 } from "./hiking-info-card.styles";
 
 import { HikingContext } from "../../../services/hikings/hiking.context";
+import { Modal } from "react-native-paper";
+import { UpSert } from "./upSert.component";
 
 const images = [
   "https://images.pexels.com/photos/532803/pexels-photo-532803.jpeg?cs=srgb&dl=pexels-pixabay-532803.jpg&fm=jpg",
@@ -25,22 +29,22 @@ const images = [
   "https://nguoivietnam.vn/wp-content/uploads/2023/03/jft.jpeg",
 ];
 
-export const HikingInfoCard = ({ hiking = {} }) => {
+export const HikingInfoCard = ({onUpdate, hiking = {} }) => {
   const ratingArray = Array.from(new Array(Math.floor(5)));
   let randomNumber = Math.floor(Math.random() * 4);
 
   const { deleteHiking } = useContext(HikingContext);
 
-  const onDelete = () =>{
-    Alert.alert('Confirm', 'Do You Want To Delete This?', [
+  const onDelete = () => {
+    Alert.alert("Confirm", "Do You Want To Delete This?", [
       {
-        text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
       },
-      {text: 'OK', onPress: () => deleteHiking(hiking.id)},
+      { text: "OK", onPress: () => deleteHiking(hiking.id) },
     ]);
-  }
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -51,44 +55,77 @@ export const HikingInfoCard = ({ hiking = {} }) => {
   };
 
   return (
-    <HikingCard elevation={5}>
-      <View>
-        <HikingCardCover source={{ uri: images[randomNumber] }} />
-      </View>
-      <Info>
-        <HikingTitle varient="label">{hiking.name}</HikingTitle>
-        <Section>
-          <HikingDate varient="body">
-            Packing Available: {hiking.parkingAvailable ? "YES" : "NO"}
-          </HikingDate>
-        </Section>
-        <Section>
-          <HikingDate varient="body">
-            Date: {formatDate(hiking.date)}
-          </HikingDate>
-          <HikingDifficultLevel varient="hint">
-            Difficult Level: {hiking.difficultLevel}
-          </HikingDifficultLevel>
-        </Section>
-        <Section>
-          <HikingDate varient="body">
-            Length Of Hike: {hiking.lengthOfHike}
-          </HikingDate>
-          <HikingDifficultLevel varient="hint">
-            Location: {hiking.location}
-          </HikingDifficultLevel>
-        </Section>
-        <Section>
-          <HikingDate varient="body">
-            Description: {hiking.description}
-          </HikingDate>
-        </Section>
-        <DeleteBtn
-          onPress={onDelete}
-          title="Delete"
-          color="#fc0303"
-        ></DeleteBtn>
-      </Info>
-    </HikingCard>
+    <>
+      <HikingCard elevation={5}>
+        <View>
+          <HikingCardCover source={{ uri: images[randomNumber] }} />
+        </View>
+        <Info>
+          <HikingTitle varient="label">{hiking.name}</HikingTitle>
+          <Section>
+            <HikingLocation varient="body">
+              Location: {hiking.location}
+            </HikingLocation>
+          </Section>
+          <Section>
+            <HikingDate varient="body">
+              Date: {formatDate(hiking.date)}
+            </HikingDate>
+            <HikingPackingAvailable varient="hint">
+              Packing Available: {hiking.parkingAvailable ? "YES" : "NO"}
+            </HikingPackingAvailable>
+          </Section>
+          <Section>
+            <HikingLengthOfHike varient="body">
+              Length Of Hike: {hiking.lengthOfHike}
+            </HikingLengthOfHike>
+            <HikingDifficultLevel varient="hint">
+              Difficult Level: {hiking.difficultLevel}
+            </HikingDifficultLevel>
+          </Section>
+          <Section>
+            <HikingDescription varient="body">
+              Description: {hiking.description}
+            </HikingDescription>
+          </Section>
+          <View style={styles.container}>
+            <TouchableOpacity onPress={()=>onUpdate(hiking)} style={styles.buttonUpdate}>
+              <Text style={styles.buttonText}>Update</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onDelete} style={styles.buttonDelete}>
+              <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </Info>
+      </HikingCard>
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row", // Arrange children in a row
+    justifyContent: "space-between", // Space evenly between children
+    paddingHorizontal: 10, // Add some padding for spacing
+  },
+  buttonUpdate: {
+    flex: 1, // Each button takes an equal share of the available space
+    backgroundColor: "orange", // Change the background color as needed
+    padding: 10,
+    margin: 7,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonDelete: {
+    flex: 1, // Each button takes an equal share of the available space
+    backgroundColor: "red", // Change the background color as needed
+    padding: 10,
+    margin: 7,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white", // Change the text color as needed
+    fontWeight: "bold",
+  },
+});

@@ -29,16 +29,34 @@ export const HikingDate = styled(Text)`
   color: ${(props) => props.theme.colors.ui.secondary};
 `;
 
+export const HikingPackingAvailable = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  color: ${(props) => props.theme.colors.brand.secondary};
+`;
+
+export const HikingLengthOfHike = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  color: ${(props) => props.theme.colors.ui.secondary};
+`;
+
+export const HikingLocation = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  color: ${(props) => props.theme.colors.ui.secondary};
+`;
+
+export const HikingDescription = styled(Text)`
+  font-family: ${(props) => props.theme.fonts.body};
+  font-size: ${(props) => props.theme.fontSizes.body};
+  color: ${(props) => props.theme.colors.ui.secondary};
+`;
+
 export const Info = styled.View`
   padding-left: ${(props) => props.theme.space[3]};
   padding-right: ${(props) => props.theme.space[3]};
   padding-bottom: ${(props) => props.theme.space[3]};
-`;
-
-export const Rating = styled.View`
-  flex-direction: row;
-  padding-top: ${(props) => props.theme.space[2]};
-  padding-bottom: ${(props) => props.theme.space[2]};
 `;
 
 export const Section = styled.View`
@@ -48,4 +66,3 @@ export const Section = styled.View`
   justify-content: space-between;
 `;
 
-export const DeleteBtn = styled.Button``;

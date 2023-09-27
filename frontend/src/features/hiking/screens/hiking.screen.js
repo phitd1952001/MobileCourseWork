@@ -13,10 +13,21 @@ import { UpSert } from "../components/upSert.component";
 const HikingScreen = () => {
   const { hikings, errors } = useContext(HikingContext);
   const [visible, setVisible] = useState(false);
+  const [updateHiking, setUpdateHiking] = useState(undefined);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 20, width: 300 };
+
+  const onUpdate = (hiking) => {
+    setUpdateHiking(hiking)
+    showModal();
+  }
+
+  const onCreate = () => {
+    setUpdateHiking(undefined)
+    showModal();
+  }
   return (
     <SafeArea>
       <Search />
@@ -24,12 +35,12 @@ const HikingScreen = () => {
         data={hikings}
         renderItem={({ item }) => (
           <Spacer position="bottom" size="medium">
-            <HikingInfoCard hiking={item} />
+            <HikingInfoCard onUpdate={onUpdate} hiking={item} />
           </Spacer>
         )}
         keyExtractor={(item) => item.id}
       />
-      <TouchableOpacity onPress={showModal} style={styles.createButton}>
+      <TouchableOpacity onPress={onCreate} style={styles.createButton}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
 
@@ -43,7 +54,7 @@ const HikingScreen = () => {
         onDismiss={hideModal}
         contentContainerStyle={containerStyle}
       >
-        <UpSert onClose= {()=>setVisible(false)}/>
+        <UpSert updateHiking={updateHiking} onClose={()=>setVisible(false)}/>
       </Modal>
     </SafeArea>
   );
@@ -66,6 +77,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 20,
+    margin: 20,  
   },
 });
 

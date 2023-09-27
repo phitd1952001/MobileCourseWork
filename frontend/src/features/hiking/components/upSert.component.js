@@ -4,21 +4,29 @@ import { TextInput, Button } from "react-native-paper";
 import { Text } from "../../../components/typography/text.components";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { HikingContext } from "../../../services/hikings/hiking.context";
 
-export const UpSert = ({onClose}) => {
-  const { createHiking } = useContext(HikingContext);
-  const [formData, setFormData] = useState({
+export const UpSert = ({onClose, updateHiking}) => {
+  const { createHiking, update } = useContext(HikingContext);
+  let initialValue = updateHiking !== undefined ? {
+    name: updateHiking.name,
+    location: updateHiking.location,
+    date: new Date(updateHiking.date),
+    parkingAvailable: updateHiking.parkingAvailable,
+    lengthOfHike: String(updateHiking.lengthOfHike),
+    difficultLevel: updateHiking.difficultLevel,
+    description: updateHiking.description,
+  } : {
     name: "",
     location: "",
     date: new Date(),
     parkingAvailable: false,
-    lengthOfHike: 0,
+    lengthOfHike: "0",
     difficultLevel: "Hard",
     description: "",
-  });
+  }
+  const [formData, setFormData] = useState(initialValue);
 
   const [errors, setErrors] = useState({});
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -83,7 +91,13 @@ export const UpSert = ({onClose}) => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      createHiking(formData)
+      if(updateHiking === undefined){
+        createHiking(formData)
+      }
+      else{
+        update(updateHiking.id, formData)
+      }
+
       alert('Form submitted successfully');
       onClose();
     }

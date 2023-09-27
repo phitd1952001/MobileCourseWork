@@ -16,8 +16,8 @@ namespace MobileBackend
                 // hikingdto to hikiding
                 config.CreateMap<HikingUpsertDto, Hiking>().ReverseMap();
                 
-                // bookupsertrequest to book
-                config.CreateMap<BookUpSertRequest, Book>().ReverseMap();
+                // observation
+                config.CreateMap<ObservationUpsertDto, Observation>().ReverseMap();
                 
                 // mapping user
                 config.CreateMap<User, AuthenticateResponse>();

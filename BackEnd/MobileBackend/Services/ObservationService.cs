@@ -1,35 +1,33 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using MobileBackend.DbContext;
-using MobileBackend.Dtos;
 using MobileBackend.Models;
 using MobileBackend.Services.IServices;
 
 namespace MobileBackend.Services
 {
-    public class BookService: IBookService
+    public class ObservationService :  IObservationService
     {
         private readonly ApplicationDbContext _db;
 
-        public BookService(ApplicationDbContext db)
+        public ObservationService(ApplicationDbContext db)
         {
             _db = db;
         }
-        public IList<Book> GetAll()
+        public IList<Observation> GetAll(int hikingId)
         {
-            return _db.Books.ToList();
+            return _db.Observations.Where(_=>_.HikingId == hikingId).ToList();
         }
 
-        public Book GetById(int id)
+        public Observation GetById(int id)
         {
             try
             {
-                var book = _db.Books.FirstOrDefault(x => x.Id == id);
-                if (book == null)
+                var observation = _db.Observations.FirstOrDefault(x => x.Id == id);
+                if (observation == null)
                     throw new NullReferenceException();
-                return book;
+                return observation;
             }
             catch (Exception e)
             {
@@ -38,14 +36,13 @@ namespace MobileBackend.Services
             }
         }
 
-        public Book Create(Book bookInput)
+        public Observation Create(Observation observationInput)
         {
             try
             {
-                // validation
-                _db.Books.Add(bookInput);
+                _db.Observations.Add(observationInput);
                 _db.SaveChanges();
-                return bookInput;
+                return observationInput;
             }
             catch (Exception e)
             {
@@ -54,13 +51,13 @@ namespace MobileBackend.Services
             }
         }
 
-        public Book Update(Book bookInput)
+        public Observation Update(Observation observationInput)
         {
             try
             {
-                _db.Books.Update(bookInput);
+                _db.Observations.Update(observationInput);
                 _db.SaveChanges();
-                return bookInput;
+                return observationInput;
             }
             catch (Exception e)
             {
@@ -73,13 +70,12 @@ namespace MobileBackend.Services
         {
             try
             {
-                var book = _db.Books.FirstOrDefault(x => x.Id == id);
-                if (book == null)
+                var observation = GetById(id);
+                if (observation == null)
                     return false;
-            
-                _db.Books.Remove(book);
+                
+                _db.Observations.Remove(observation);
                 _db.SaveChanges();
-
                 return true;
             }
             catch (Exception e)
@@ -87,12 +83,6 @@ namespace MobileBackend.Services
                 Console.WriteLine(e);
                 throw;
             }
-        }
-        
-        public List<Book> Search(string keyword)
-        {
-            var result = _db.Books.Where(_ => _.Name.ToLower().Trim().Contains(keyword.ToLower().Trim())).ToList();
-            return result;
         }
     }
 }
