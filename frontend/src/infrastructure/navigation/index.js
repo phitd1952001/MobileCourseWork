@@ -4,8 +4,8 @@ import { HikingContextProvider } from "../../services/hikings/hiking.context";
 
 export const Navigation = () => {
   return (
-      <HikingContextProvider>
-        <AppNavigator />
-      </HikingContextProvider>
+    <HikingContextProvider>
+      <AppNavigator />
+    </HikingContextProvider>
   );
 };

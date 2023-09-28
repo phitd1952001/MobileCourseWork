@@ -10,7 +10,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Modal } from "react-native-paper";
 import { UpSert } from "../components/upSert.component";
 
-const HikingScreen = () => {
+const HikingScreen = ({ navigation }) => {
   const { hikings, errors } = useContext(HikingContext);
   const [visible, setVisible] = useState(false);
   const [updateHiking, setUpdateHiking] = useState(undefined);
@@ -34,9 +34,17 @@ const HikingScreen = () => {
       <FlatList
         data={hikings}
         renderItem={({ item }) => (
-          <Spacer position="bottom" size="medium">
-            <HikingInfoCard onUpdate={onUpdate} hiking={item} />
-          </Spacer>
+          <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Observation", {
+                  hiking: item,
+                })
+              }
+            >
+            <Spacer position="bottom" size="medium">
+              <HikingInfoCard onUpdate={onUpdate} hiking={item} />
+            </Spacer>
+          </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
       />
