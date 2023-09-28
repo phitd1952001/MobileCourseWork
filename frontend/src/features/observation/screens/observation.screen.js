@@ -6,6 +6,7 @@ import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Modal } from "react-native-paper";
 import { ObservationInfoCard } from "../components/observation-info-card.components";
 import { getObservation } from "../../../services/observations/observation.service";
+import { UpSert } from "../components/upSert.components";
 
 const ObservationScreen = ({ route }) => {
   const { hiking } = route.params;
@@ -67,7 +68,11 @@ const ObservationScreen = ({ route }) => {
         onDismiss={hideModal}
         contentContainerStyle={styles.containerStyle}
       >
-        <Text>hi</Text>
+        <UpSert 
+          loadObservation={loadObservation} 
+          updateObservations={updateObservation} 
+          hiking={hiking} 
+          onClose={()=>setVisible(false)}/>
       </Modal>
     </SafeArea>
   );
