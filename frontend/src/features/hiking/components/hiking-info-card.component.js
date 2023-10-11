@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { View, Alert } from "react-native";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import star from "../../../../assets/star";
 
 import {
   HikingCard,
@@ -18,8 +17,6 @@ import {
 } from "./hiking-info-card.styles";
 
 import { HikingContext } from "../../../services/hikings/hiking.context";
-import { Modal } from "react-native-paper";
-import { UpSert } from "./upSert.component";
 
 const images = [
   "https://images.pexels.com/photos/532803/pexels-photo-532803.jpeg?cs=srgb&dl=pexels-pixabay-532803.jpg&fm=jpg",
@@ -30,7 +27,6 @@ const images = [
 ];
 
 export const HikingInfoCard = ({onUpdate, hiking = {} }) => {
-  const ratingArray = Array.from(new Array(Math.floor(5)));
   let randomNumber = Math.floor(Math.random() * 4);
 
   const { deleteHiking } = useContext(HikingContext);

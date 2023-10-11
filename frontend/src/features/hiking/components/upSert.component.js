@@ -22,7 +22,7 @@ export const UpSert = ({onClose, updateHiking}) => {
     location: "",
     date: new Date(),
     parkingAvailable: false,
-    lengthOfHike: "0",
+    lengthOfHike: "",
     difficultLevel: "Hard",
     description: "",
   }
@@ -82,8 +82,8 @@ export const UpSert = ({onClose, updateHiking}) => {
       validationErrors.parkingAvailable = 'Parking Available is required';
     }
 
-    if (!formData.lengthOfHike || formData.lengthOfHike < 0 || typeof formData.lengthOfHike !== "number") {
-      validationErrors.lengthOfHike = 'Length Of Hike is a number and required';
+    if (!formData.lengthOfHike) {
+      validationErrors.lengthOfHike = 'Length Of Hike is required';
     }
 
     // Add more validation rules as needed for other fields
@@ -166,7 +166,7 @@ export const UpSert = ({onClose, updateHiking}) => {
       <TextInput
         label="Length Of Hike "
         value={formData.lengthOfHike}
-        onChangeText={(text) => handleInputChange("lengthOfHike", Number(text))}
+        onChangeText={(text) => handleInputChange("lengthOfHike", text)}
         error={!!errors.lengthOfHike}
         style={styles.textInput}
       />
