@@ -18,7 +18,7 @@ namespace MobileBackend.Dtos.Hiking
         public bool ParkingAvailable { get; set; }
         
         [Required]
-        public int LengthOfHike { get; set; }
+        public string LengthOfHike { get; set; }
         
         [Required]
         public string DifficultLevel { get; set; }

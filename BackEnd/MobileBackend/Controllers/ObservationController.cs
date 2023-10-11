@@ -9,7 +9,6 @@ namespace MobileBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
     public class ObservationController: ControllerBase
     {
         private readonly IMapper _mapper;
