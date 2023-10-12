@@ -36,6 +36,5 @@ namespace MobileBackend
             });
             return mappingConfig;
         }
-            
     }
 }

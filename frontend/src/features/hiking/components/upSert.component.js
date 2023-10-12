@@ -14,7 +14,7 @@ export const UpSert = ({onClose, updateHiking}) => {
     location: updateHiking.location,
     date: new Date(updateHiking.date),
     parkingAvailable: updateHiking.parkingAvailable,
-    lengthOfHike: String(updateHiking.lengthOfHike),
+    lengthOfHike: updateHiking.lengthOfHike,
     difficultLevel: updateHiking.difficultLevel,
     description: updateHiking.description,
   } : {
