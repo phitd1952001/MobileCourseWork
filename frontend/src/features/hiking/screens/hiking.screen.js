@@ -28,6 +28,7 @@ const HikingScreen = ({ navigation }) => {
     setUpdateHiking(undefined)
     showModal();
   }
+  
   return (
     <SafeArea>
       <Search />

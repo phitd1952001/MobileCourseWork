@@ -12,10 +12,6 @@ export const Search = () => {
   const { onSearch, keyword } = useContext(HikingContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
 
-  //   useEffect(() => {
-  //     console.log(searchKeyword);
-  //   }, [searchKeyword]);
-
   useEffect(() => {
     setSearchKeyword(keyword);
   }, [keyword]);
@@ -32,3 +28,4 @@ export const Search = () => {
     </SearchContainer>
   );
 };
+
