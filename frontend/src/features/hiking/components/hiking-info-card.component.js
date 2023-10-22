@@ -27,7 +27,7 @@ const images = [
 ];
 
 export const HikingInfoCard = ({onUpdate, hiking = {} }) => {
-  let randomNumber = Math.floor(Math.random() * 4);
+  let randomNumber = Math.floor(Math.random() * 5);
 
   const { deleteHiking } = useContext(HikingContext);
 

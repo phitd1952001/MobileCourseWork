@@ -49,6 +49,7 @@ const HikingScreen = ({ navigation }) => {
         )}
         keyExtractor={(item) => item.id}
       />
+      
       <TouchableOpacity onPress={onCreate} style={styles.createButton}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
